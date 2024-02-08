@@ -1,11 +1,48 @@
 # frozen_string_literal: true
 
 require_relative 'game'
+require_relative 'guess'
 require 'colorize'
 
 # A 2-Player turn-based game
 class Mastermind < Game
+
+   # 🔵🟢🟡🟠🟤🔴⚪
+  COLORS = {
+    blue:   "🔵",
+    green:  "🟢",
+    yellow: "🟡",
+    orange: "🟠",
+    purple: "🟤",
+    red:    "🔴",
+    white:  "⚪"
+  }.freeze
+
   def start
+    play_game
+  end
+
+  private
+
+  def play_game
+    guesses = [Guess.new([:red, :green, :yellow, :orange], [:red, :white, :red, :white])]
+    guesses.push Guess.new([:red, :blue, :purple, :orange], [:red, :white, :red, :white])
+    guesses.reverse.each_with_index do |guess, idx|
+      puts
+      print "#{guesses.length - idx}  "
+      print "● ".colorize(guess.feedback[0])
+      print "● ".colorize(guess.feedback[1])
+      guess.comb.each do |i|
+        print "#{COLORS[i]} "
+      end
+      puts
+      print "   ● ".colorize(guess.feedback[2])
+      print "● ".colorize(guess.feedback[3])
+      puts
+    end
+  end
+
+  def print_board
     puts
     # 🔵🟢🟡🟠🟤🔴⚪
     print "12 "
