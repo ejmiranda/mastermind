@@ -4,9 +4,22 @@ require_relative 'game'
 require_relative 'guess'
 require 'colorize'
 
-# A 2-Player turn-based game
+# The classic code breaking game
 class Mastermind < Game
-  # 🔵🟢🟡🟠🟤🔴⚪
+  def initialize
+    @human = Player.new
+    @comp = CompPlayer.new
+    super(game: 'Mastermind', players: [@human, @comp])
+  end
+
+  def start
+    play_game
+  end
+
+  private
+
+  attr_reader :human, :comp
+
   COLORS = {
     blue: '🔵',
     green: '🟢',
@@ -17,175 +30,35 @@ class Mastermind < Game
     white: '⚪'
   }.freeze
 
-  def start
-    play_game
-  end
-
-  private
-
   def play_game
-    guesses = [Guess.new(%i[red green yellow orange], %i[red white red white])]
-    guesses.push Guess.new(%i[red blue purple orange], %i[red white red white])
-    guesses.reverse.each_with_index do |guess, idx|
-      puts
-      print "#{guesses.length - idx}  "
-      print '● '.colorize(guess.feedback[0])
-      print '● '.colorize(guess.feedback[1])
-      guess.comb.each do |i|
-        print "#{COLORS[i]} "
-      end
-      puts
-      print '   ● '.colorize(guess.feedback[2])
-      print '● '.colorize(guess.feedback[3])
-      puts
+    super
+    set_human_name
+    loop do
+      play_round
+      break unless play_again?
+
+      print_separator
     end
+    print_banner(text: 'Thank you for playing!')
   end
 
-  # def print_board
-  #   puts
-  #   # 🔵🟢🟡🟠🟤🔴⚪
-  #   print '12 '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '11 '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '10 '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '9  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '8  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '7  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '6  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '5  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '4  '
-  #   print '● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   print '⚪ '.colorize(:red)
-  #   print '⚪ '.colorize(:blue)
-  #   print '⚪ '.colorize(:yellow)
-  #   print '⚪ '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:gray)
-  #   print '● '.colorize(:gray)
-  #   puts
-  #   puts
-  #   print '3  '
-  #   print '● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   print '🔴 '.colorize(:red)
-  #   print '🟢 '.colorize(:blue)
-  #   print '🔵 '.colorize(:yellow)
-  #   print '🟠 '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   puts
-  #   puts
-  #   print '2  '
-  #   print '● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   print '🔴 '.colorize(:red)
-  #   print '🟢 '.colorize(:blue)
-  #   print '🔵 '.colorize(:yellow)
-  #   print '🟠 '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   puts
-  #   puts
-  #   print '1  '
-  #   print '● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   print '🔴 '.colorize(:red)
-  #   print '🟢 '.colorize(:blue)
-  #   print '🔵 '.colorize(:yellow)
-  #   print '🟠 '.colorize(:orange)
-  #   puts
-  #   print '   ● '.colorize(:red)
-  #   print '● '.colorize(:white)
-  #   puts
-  # end
+  def set_human_name
+    puts "What's your name?"
+    human.name = gets.chomp
+    print_separator
+  end
+
+  def play_round
+    set_human_id
+  end
+
+  def set_human_id
+    human.id = get_valid_value(
+      prompt: "#{human.name}, are you a codemaker (1) or a codebreaker (2)?",
+      valid_values: %w[1 2],
+      invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
+      up_case: false
+    )
+    print_separator
+  end
 end
