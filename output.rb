@@ -11,6 +11,7 @@ module Output
   end
 
   def print_separator
+    puts
     puts '----------------------'
     puts
   end
