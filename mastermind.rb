@@ -10,6 +10,7 @@ class Mastermind < Game
     @human = Player.new
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
+    @code = Guess.new(%i[whi whi whi whi], %i[whi whi whi whi])
   end
 
   def start
@@ -18,16 +19,16 @@ class Mastermind < Game
 
   private
 
-  attr_reader :human, :comp
+  attr_reader :human, :comp, :code
 
   COLORS = {
-    blue: '🔵',
-    green: '🟢',
-    yellow: '🟡',
-    orange: '🟠',
-    purple: '🟤',
+    blu: '🔵',
+    gre: '🟢',
+    yel: '🟡',
+    ora: '🟠',
+    pur: '🟤',
     red: '🔴',
-    white: '⚪'
+    whi: '⚪'
   }.freeze
 
   def play_game
@@ -44,12 +45,20 @@ class Mastermind < Game
 
   def set_human_name
     puts "What's your name?"
-    human.name = gets.chomp
+    # human.name = gets.chomp
+    human.name = 'Edgar'
+    puts human.name
     print_separator
   end
 
   def play_round
     set_human_id
+    case human.id
+    when '1'
+      create_code
+    else
+      puts 'Codebreaker'
+    end
   end
 
   def set_human_id
@@ -58,6 +67,30 @@ class Mastermind < Game
       valid_values: %w[1 2],
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: false
+    )
+    print_separator
+  end
+
+  def create_code
+    print_color_ops
+    puts "\n\n"
+    code.comb.each { |i| print "#{COLORS[i]} " }
+    puts "\n\n"
+    set_color_sel
+  end
+
+  def print_color_ops
+    COLORS.each_value { |value| print "#{value} " }
+    puts
+    COLORS.each_key { |key| print "#{key[0].upcase}  " }
+  end
+
+  def set_color_sel
+    puts get_valid_value_comb(
+      prompt: 'Write your color combination ("BGYO, WRPO, etc.)"',
+      valid_values: %w[B G Y O P R],
+      invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
+      up_case: true
     )
     print_separator
   end
