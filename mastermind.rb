@@ -80,18 +80,20 @@ class Mastermind < Game
   end
 
   def print_color_ops
-    COLORS.each_value { |value| print "#{value} " }
+    COLORS.each_value { |value| print "#{value} " if value != '⚪' }
     puts
-    COLORS.each_key { |key| print "#{key[0].upcase}  " }
+    COLORS.each_key { |key| print "#{key[0].upcase}  " if key != 'whi'.to_sym }
   end
 
   def set_color_sel
-    puts get_valid_value_comb(
-      prompt: 'Write your color combination ("BGYO, WRPO, etc.)"',
+    comb = get_valid_value_comb(
+      prompt: 'Write your color combination ("BGYO, RPOY, etc.)"',
       valid_values: %w[B G Y O P R],
+      length: 4,
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: true
-    )
+    ).split('')
+    p comb
     print_separator
   end
 end
