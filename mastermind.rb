@@ -80,9 +80,9 @@ class Mastermind < Game
   end
 
   def print_color_ops
-    COLORS.each_value { |value| print "#{value} " if value != '⚪' }
+    COLORS.except(:whi).each_value { |value| print "#{value} " }
     puts
-    COLORS.each_key { |key| print "#{key[0].upcase}  " if key != 'whi'.to_sym }
+    COLORS.except(:whi).each_key { |key| print "#{key[0].upcase}  " }
   end
 
   def set_color_sel
