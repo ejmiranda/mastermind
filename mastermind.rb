@@ -40,7 +40,7 @@ class Mastermind < Game
 
       print_separator
     end
-    print_banner(text: 'Thank you for playing!')
+    end_game
   end
 
   def set_human_name

@@ -32,3 +32,7 @@ class Game
     ) == 'Y'
   end
 end
+
+def end_game
+  print_banner(text: 'Thank you for playing!')
+end
