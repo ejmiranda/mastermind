@@ -10,7 +10,7 @@ class Mastermind < Game
     @human = Player.new
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
-    @code = Guess.new(%i[whi whi whi whi], %i[whi whi whi whi])
+    @code = Guess.new(%i[W W W W], %i[W W W W])
   end
 
   def start
@@ -22,13 +22,13 @@ class Mastermind < Game
   attr_reader :human, :comp, :code
 
   COLORS = {
-    blu: '🔵',
-    gre: '🟢',
-    yel: '🟡',
-    ora: '🟠',
-    pur: '🟤',
-    red: '🔴',
-    whi: '⚪'
+    B: '🔵',
+    G: '🟢',
+    Y: '🟡',
+    O: '🟠',
+    P: '🟤',
+    R: '🔴',
+    W: '⚪'
   }.freeze
 
   def play_game
@@ -59,6 +59,7 @@ class Mastermind < Game
     else
       puts 'Codebreaker'
     end
+    print_separator
   end
 
   def set_human_id
@@ -72,28 +73,42 @@ class Mastermind < Game
   end
 
   def create_code
-    print_color_ops
-    puts "\n\n"
-    code.comb.each { |i| print "#{COLORS[i]} " }
-    puts "\n\n"
-    set_color_sel
+    create_guess
+  end
+
+  def create_guess
+    loop do
+      print_color_ops
+      print_code
+      code.comb = select_colors
+      puts "\n"
+      print_code
+      break if get_yes_no(prompt: 'Do you want to keep your selection (Y/N)?')
+
+      code.comb = %i[W W W W]
+      print_separator
+    end
   end
 
   def print_color_ops
-    COLORS.except(:whi).each_value { |value| print "#{value} " }
+    COLORS.except(:W).each_value { |value| print "#{value} " }
     puts
-    COLORS.except(:whi).each_key { |key| print "#{key[0].upcase}  " }
+    COLORS.except(:W).each_key { |key| print "#{key[0].upcase}  " }
+    puts "\n\n"
   end
 
-  def set_color_sel
-    comb = get_valid_value_comb(
+  def print_code
+    code.comb.each { |i| print "#{COLORS[i]} " }
+    puts "\n\n"
+  end
+
+  def select_colors
+    get_valid_value_comb(
       prompt: 'Write your color combination ("BGYO, RPOY, etc.)"',
       valid_values: %w[B G Y O P R],
       length: 4,
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: true
-    ).split('')
-    p comb
-    print_separator
+    ).split('').map(&:to_sym) # String -> Array of Strings -> Array of Symbols
   end
 end
