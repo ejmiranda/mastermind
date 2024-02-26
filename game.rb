@@ -24,12 +24,7 @@ class Game
   end
 
   def play_again?
-    get_valid_value(
-      prompt: 'Do you want to play again (Y/N)?',
-      valid_values: %w[Y N],
-      invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
-      up_case: true
-    ) == 'Y'
+    get_yes_no(prompt: 'Do you want to play again (Y/N)?')
   end
 end
 

@@ -22,4 +22,13 @@ module Input
       puts "You input #{value.length} characters, but it should be #{length}." if value.length != length
     end
   end
+
+  def get_yes_no(prompt:)
+    get_valid_value(
+      prompt: prompt,
+      valid_values: %w[Y N],
+      invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
+      up_case: true
+    ) == 'Y'
+  end
 end
