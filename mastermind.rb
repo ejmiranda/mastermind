@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'game'
+require_relative 'board'
 require_relative 'guess'
 require 'colorize'
 
@@ -11,6 +12,7 @@ class Mastermind < Game
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
     @code = Guess.new(%i[W W W W], %i[W W W W])
+    @board = Board.new(row_qty: 12)
   end
 
   def start
@@ -19,7 +21,7 @@ class Mastermind < Game
 
   private
 
-  attr_reader :human, :comp, :code
+  attr_reader :human, :comp, :code, :board
 
   COLORS = {
     B: '🔵',
@@ -58,6 +60,7 @@ class Mastermind < Game
       create_guess(code) # Human codemaker manually creates the code.
     else # Human is codebreaker
       code.comb = COLORS.keys.sample(4) # Comp codemaker gets a random code.
+      board.print_board
     end
     print_separator
   end
