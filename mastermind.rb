@@ -54,10 +54,10 @@ class Mastermind < Game
   def play_round
     set_human_id
     case human.id
-    when '1'
-      create_code
-    else
-      puts 'Codebreaker'
+    when '1' # Human is codemaker
+      create_guess(code) # Human codemaker manually creates the code.
+    else # Human is codebreaker
+      code.comb = COLORS.keys.sample(4) # Comp codemaker gets a random code.
     end
     print_separator
   end
