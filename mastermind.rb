@@ -73,19 +73,19 @@ class Mastermind < Game
   end
 
   def create_code
-    create_guess
+    create_guess(code)
   end
 
-  def create_guess
+  def create_guess(guess)
     loop do
       print_color_ops
-      print_code
-      code.comb = select_colors
+      print_comb(guess)
+      guess.comb = select_colors
       puts "\n"
-      print_code
+      print_comb(guess)
       break if get_yes_no(prompt: 'Do you want to keep your selection (Y/N)?')
 
-      code.comb = %i[W W W W]
+      guess.comb = %i[W W W W]
       print_separator
     end
   end
@@ -97,8 +97,8 @@ class Mastermind < Game
     puts "\n\n"
   end
 
-  def print_code
-    code.comb.each { |i| print "#{COLORS[i]} " }
+  def print_comb(guess)
+    guess.comb.each { |i| print "#{COLORS[i]} " }
     puts "\n\n"
   end
 
@@ -109,6 +109,6 @@ class Mastermind < Game
       length: 4,
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: true
-    ).split('').map(&:to_sym) # String -> Array of Strings -> Array of Symbols
+    ).split('').map(&:to_sym) # String -.split-> Array of Strings -.map-> Array of Symbols
   end
 end
