@@ -18,8 +18,8 @@ module Input
       value = up_case ? gets.chomp.upcase : gets.chomp
       return value if value.split('').all? { |c| valid_values.include?(c) } && value.length == length
 
-      puts invalid_msg
       puts "You input #{value.length} characters, but it should be #{length}." if value.length != length
+      puts invalid_msg
     end
   end
 
