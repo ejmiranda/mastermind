@@ -3,7 +3,6 @@
 require_relative 'game'
 require_relative 'board'
 require_relative 'guess'
-require 'colorize'
 
 # The classic code breaking game
 class Mastermind < Game
@@ -11,8 +10,8 @@ class Mastermind < Game
     @human = Player.new
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
-    @code = Guess.new(%i[W W W W], %i[W W W W])
     @board = Board.new(row_qty: 12)
+    @code = Guess.new
   end
 
   def start
@@ -21,17 +20,7 @@ class Mastermind < Game
 
   private
 
-  attr_reader :human, :comp, :code, :board
-
-  COLORS = {
-    B: '🔵',
-    G: '🟢',
-    Y: '🟡',
-    O: '🟠',
-    P: '🟤',
-    R: '🔴',
-    W: '⚪'
-  }.freeze
+  attr_reader :human, :comp, :board, :code
 
   def play_game
     super
@@ -59,7 +48,7 @@ class Mastermind < Game
     when '1' # Human is codemaker
       create_guess(code) # Human codemaker manually creates the code.
     else # Human is codebreaker
-      code.comb = COLORS.keys.sample(4) # Comp codemaker gets a random code.
+      code.comb = board.color_ids.sample(4) # Comp codemaker gets a random code.
       board.print_board
     end
     print_separator
@@ -81,11 +70,10 @@ class Mastermind < Game
 
   def create_guess(guess)
     loop do
-      print_color_ops
-      print_comb(guess)
-      guess.comb = select_colors
+      board.print_color_ops
+      guess.comb = select_color_comb
       puts "\n"
-      print_comb(guess)
+      board.print_comb(guess)
       break if get_yes_no(prompt: 'Do you want to keep your selection (Y/N)?')
 
       guess.comb = %i[W W W W]
@@ -93,25 +81,13 @@ class Mastermind < Game
     end
   end
 
-  def print_color_ops
-    COLORS.except(:W).each_value { |value| print "#{value} " }
-    puts
-    COLORS.except(:W).each_key { |key| print "#{key[0].upcase}  " }
-    puts "\n\n"
-  end
-
-  def print_comb(guess)
-    guess.comb.each { |i| print "#{COLORS[i]} " }
-    puts "\n\n"
-  end
-
-  def select_colors
+  def select_color_comb
     get_valid_value_comb(
-      prompt: 'Write your color combination ("BGYO, RPOY, etc.)"',
-      valid_values: %w[B G Y O P R],
+      prompt: 'Write your color combination ("BGYO, POYG, etc.)"',
+      valid_values: board.color_ids.map(&:to_s), # Array of Symbols -> Array of Strings
       length: 4,
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: true
-    ).split('').map(&:to_sym) # String -.split-> Array of Strings -.map-> Array of Symbols
+    ).split('').map(&:to_sym) # String -> Array of Strings -> Array of Symbols
   end
 end
