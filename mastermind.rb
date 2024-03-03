@@ -76,7 +76,7 @@ class Mastermind < Game
       guess.comb = select_color_comb
       puts "\n"
       board.print_comb(guess)
-      break if get_yes_no(prompt: 'Do you want to keep your selection (Y/N)?')
+      break if get_yes(prompt: 'Do you want to keep your selection (Y/N)?')
 
       guess.comb = %i[W W W W]
       print_separator
