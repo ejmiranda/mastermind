@@ -49,8 +49,8 @@ class Mastermind < Game
       create_guess(code) # Human codemaker manually creates the code.
     else # Human is codebreaker
       code.comb = board.random_comb # Comp codemaker gets a random code.
-      board.print_board
     end
+    board.print_board
     print_separator
   end
 
@@ -66,6 +66,8 @@ class Mastermind < Game
 
   def create_code
     create_guess(code)
+    puts 'Here!'
+    print_separator
   end
 
   def create_guess(guess)

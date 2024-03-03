@@ -23,7 +23,7 @@ module Input
     end
   end
 
-  def get_yes_no(prompt:)
+  def get_yes(prompt:)
     get_valid_value(
       prompt: prompt,
       valid_values: %w[Y N],

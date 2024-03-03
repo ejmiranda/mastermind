@@ -24,7 +24,7 @@ class Game
   end
 
   def play_again?
-    get_yes_no(prompt: 'Do you want to play again (Y/N)?')
+    get_yes(prompt: 'Do you want to play again (Y/N)?')
   end
 end
 
