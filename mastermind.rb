@@ -48,7 +48,7 @@ class Mastermind < Game
     when '1' # Human is codemaker
       create_guess(code) # Human codemaker manually creates the code.
     else # Human is codebreaker
-      code.comb = board.color_ids.sample(4) # Comp codemaker gets a random code.
+      code.comb = board.random_comb # Comp codemaker gets a random code.
       board.print_board
     end
     print_separator
@@ -83,7 +83,7 @@ class Mastermind < Game
 
   def select_color_comb
     get_valid_value_comb(
-      prompt: 'Write your color combination ("BGYO, POYG, etc.)"',
+      prompt: "Write your color combination (#{board.random_text}, #{board.random_text}, etc.)",
       valid_values: board.color_ids.map(&:to_s), # Array of Symbols -> Array of Strings
       length: 4,
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",

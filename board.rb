@@ -24,6 +24,14 @@ class Board
     COLORS.except(:W).keys
   end
 
+  def random_comb
+    color_ids.sample(4)
+  end
+
+  def random_text
+    random_comb.map(&:to_s).join
+  end
+
   def print_color_ops
     COLORS.except(:W).each_value { |value| print "#{value} " }
     puts
@@ -31,22 +39,24 @@ class Board
     puts "\n\n"
   end
 
-  def print_comb(guess)
+  def print_comb_colors(guess)
     guess.comb.each { |color_id| print "#{COLORS[color_id]} " }
+  end
+
+  def print_comb(guess)
+    print_comb_colors(guess)
     puts
     guess.comb.each { |color_id| print "#{color_id}  " }
     puts "\n\n"
   end
 
-  def print_board # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def print_board # rubocop:disable Metrics/AbcSize
     guesses.reverse.each_with_index do |guess, idx|
       puts
       print "#{guesses.length - idx} "
       print ' ' if guesses.length - idx < 10
       print "#{'●'.colorize(guess.feedback[0])} #{'●'.colorize(guess.feedback[1])} "
-      guess.comb.each do |i|
-        print "#{COLORS[i]} "
-      end
+      print_comb_colors(guess)
       puts
       print "   #{'●'.colorize(guess.feedback[2])} #{'●'.colorize(guess.feedback[3])} "
       puts
