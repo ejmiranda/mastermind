@@ -52,7 +52,7 @@ class Board
 
   def print_board # rubocop:disable Metrics/AbcSize
     guesses.reverse.each_with_index do |guess, idx|
-      puts
+      puts unless idx.zero?
       print "#{guesses.length - idx} "
       print ' ' if guesses.length - idx < 10
       print "#{'●'.colorize(guess.feedback[0])} #{'●'.colorize(guess.feedback[1])} "
