@@ -10,7 +10,7 @@ class Mastermind < Game
     @human = Player.new
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
-    @board = Board.new(row_qty: 12)
+    @board = Board.new(12)
     @code = Guess.new
   end
 
@@ -43,13 +43,15 @@ class Mastermind < Game
   end
 
   def play_round
-    set_human_id
+    # set_human_id
+    human.id = 2
     case human.id
     when '1' # Human is codemaker
       create_code # Human codemaker manually creates the code.
     else # Human is codebreaker
       code.comb = board.random_comb # Comp codemaker gets a random code.
     end
+    board.guesses[0].comb = %i[B G Y O]
     board.print_board
     print_separator
   end

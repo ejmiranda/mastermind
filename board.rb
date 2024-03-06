@@ -5,8 +5,9 @@ require 'colorize'
 
 # A board for the Mastermind Game
 class Board
-  def initialize(row_qty: 12)
-    @guesses = Array.new(row_qty, Guess.new)
+  def initialize(guess_qty)
+    @guesses = []
+    guess_qty.times { |g| @guesses.push(Guess.new(g + 1)) }
   end
 
   attr_accessor :guesses
@@ -53,7 +54,7 @@ class Board
   def print_board # rubocop:disable Metrics/AbcSize
     guesses.reverse.each_with_index do |guess, idx|
       puts unless idx.zero?
-      print "#{guesses.length - idx} "
+      print "#{guess.id} "
       print ' ' if guesses.length - idx < 10
       print "#{'●'.colorize(guess.feedback[0])} #{'●'.colorize(guess.feedback[1])} "
       print_comb_colors(guess)
