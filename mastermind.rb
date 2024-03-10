@@ -43,17 +43,14 @@ class Mastermind < Game
   end
 
   def play_round
-    # set_human_id
-    human.id = 2
-    case human.id
-    when '1' # Human is codemaker
-      create_code # Human codemaker manually creates the code.
-    else # Human is codebreaker
-      code.comb = board.random_comb # Comp codemaker gets a random code.
+    set_human_id
+    create_code
+    board.guesses.each do |guess|
+      play_turn(guess)
+      break if winner?
+
+      print_separator
     end
-    board.guesses[0].comb = %i[B G Y O]
-    board.print_board
-    print_separator
   end
 
   def set_human_id
@@ -66,12 +63,30 @@ class Mastermind < Game
     print_separator
   end
 
-  def create_code
-    create_guess(code)
+  def play_turn(guess)
+    board.print_board
+    puts "\n\nGuess ##{guess.id}\n\n"
+    turn_guess = Guess.new
+    create_guess(guess: turn_guess)
     print_separator
   end
 
-  def create_guess(guess)
+  def winner?
+    true
+  end
+
+  def create_code
+    case human.id
+    when '1'
+      create_guess(guess: code)
+      print_separator
+    when '2'
+      code.comb = board.random_comb
+    end
+  end
+
+  def create_guess(guess: Guess.new)
+    puts "Create a 4 digit combination from these colors:\n\n"
     loop do
       board.print_color_ops
       guess.comb = select_color_comb
