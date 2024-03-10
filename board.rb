@@ -35,6 +35,7 @@ class Board
 
   def print_color_ops
     COLORS.except(:W).each_value { |value| print "#{value} " }
+    print '<- Available color options'
     puts
     COLORS.except(:W).each_key { |key| print "#{key}  " }
     puts "\n\n"
@@ -42,6 +43,7 @@ class Board
 
   def print_comb_colors(guess)
     guess.comb.each { |color_id| print "#{COLORS[color_id]} " }
+    print '<- Your combination' if guess.id.zero?
   end
 
   def print_comb(guess)
