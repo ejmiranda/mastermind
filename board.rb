@@ -17,11 +17,12 @@ class Board
     G: '🟢',
     Y: '🟡',
     O: '🟠',
-    P: '🟤'
+    P: '🟤',
+    W: '⚪'
   }.freeze
 
   def color_ids
-    COLORS.keys
+    COLORS.except(:W).keys
   end
 
   def random_comb
@@ -33,10 +34,10 @@ class Board
   end
 
   def print_color_ops
-    COLORS.each_value { |value| print "#{value} " }
+    COLORS.except(:W).each_value { |value| print "#{value} " }
     print '<- Available color options'
     puts
-    COLORS.each_key { |key| print "#{key}  " }
+    COLORS.except(:W).each_key { |key| print "#{key}  " }
     puts "\n\n"
   end
 
