@@ -10,7 +10,7 @@ class Mastermind < Game
     @human = Player.new
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
-    @board = Board.new(12)
+    @board = Board.new(guess_qty: 12)
     @code = Guess.new
   end
 
@@ -63,18 +63,6 @@ class Mastermind < Game
     print_separator
   end
 
-  def play_turn(guess)
-    board.print_board
-    puts "\n\nGuess ##{guess.id}\n\n"
-    turn_guess = Guess.new
-    create_guess(guess: turn_guess)
-    print_separator
-  end
-
-  def winner?
-    true
-  end
-
   def create_code
     case human.id
     when '1'
@@ -107,5 +95,17 @@ class Mastermind < Game
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: true
     ).split('').map(&:to_sym) # String -> Array of Strings -> Array of Symbols
+  end
+
+  def play_turn(guess)
+    board.print_board
+    puts "\n\nGuess ##{guess.id}\n\n"
+    turn_guess = Guess.new
+    create_guess(guess: turn_guess)
+    print_separator
+  end
+
+  def winner?
+    true
   end
 end
