@@ -5,9 +5,9 @@ require 'colorize'
 
 # A board for the Mastermind Game
 class Board
-  def initialize(guess_qty)
+  def initialize(guess_qty:)
     @guesses = []
-    guess_qty.times { |g| @guesses.push(Guess.new(g + 1)) }
+    guess_qty.times { |g| @guesses.push(Guess.new(id: g + 1)) }
   end
 
   attr_accessor :guesses
@@ -17,12 +17,11 @@ class Board
     G: '🟢',
     Y: '🟡',
     O: '🟠',
-    P: '🟤',
-    W: '⚪'
+    P: '🟤'
   }.freeze
 
   def color_ids
-    COLORS.except(:W).keys
+    COLORS.keys
   end
 
   def random_comb
@@ -34,10 +33,10 @@ class Board
   end
 
   def print_color_ops
-    COLORS.except(:W).each_value { |value| print "#{value} " }
+    COLORS.each_value { |value| print "#{value} " }
     print '<- Available color options'
     puts
-    COLORS.except(:W).each_key { |key| print "#{key}  " }
+    COLORS.each_key { |key| print "#{key}  " }
     puts "\n\n"
   end
 
