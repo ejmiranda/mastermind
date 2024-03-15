@@ -5,7 +5,7 @@ class Guess
   attr_reader :id
   attr_accessor :comb, :feedback
 
-  def initialize(id: 0, comb: %i[W W W W], feedback: %i[white white white white])
+  def initialize(id: 0, comb: %i[W W W W], feedback: %i[black black black black])
     @id = id
     @comb = comb
     @feedback = feedback
