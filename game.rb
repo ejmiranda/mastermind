@@ -18,6 +18,7 @@ class Game
   private
 
   attr_reader :game, :players
+  attr_accessor :winner
 
   def play_game
     print_banner(text: "Welcome to #{game}")
