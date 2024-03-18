@@ -18,6 +18,7 @@ class Board
     Y: '🟡',
     O: '🟠',
     P: '🟤',
+    R: '🔴',
     W: '⚪'
   }.freeze
 
@@ -48,14 +49,18 @@ class Board
     print '<- Your combination' if guess.id.zero?
   end
 
+  def print_comb_text(guess)
+    guess.comb.each { |color_id| print "#{color_id}  " unless color_id == :W }
+  end
+
   def print_comb(guess)
     print_comb_colors(guess)
     puts
-    guess.comb.each { |color_id| print "#{color_id}  " }
+    print_comb_text(guess)
     puts "\n\n"
   end
 
-  def print_board # rubocop:disable Metrics/AbcSize
+  def print_board # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     guesses.reverse.each_with_index do |guess, idx|
       puts unless idx.zero?
       print "#{guess.id} "
@@ -64,6 +69,7 @@ class Board
       print_comb_colors(guess)
       puts
       print "   #{'●'.colorize(guess.feedback[2])} #{'●'.colorize(guess.feedback[3])} "
+      print_comb_text(guess)
       puts
     end
   end
