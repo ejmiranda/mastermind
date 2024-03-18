@@ -25,8 +25,10 @@ class Board
     COLORS.except(:W).keys
   end
 
-  def random_comb
-    color_ids.sample(4)
+  def random_comb(digits: 4)
+    comb = []
+    digits.times { comb << color_ids.sample(1) }
+    comb.flatten
   end
 
   def random_text
