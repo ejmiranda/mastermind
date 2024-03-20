@@ -66,14 +66,14 @@ class Mastermind < Game
   def create_code
     case human.id
     when '1'
-      create_guess(guess: code)
+      code.comb = create_guess.comb
       print_separator
     when '2'
       code.comb = board.random_comb
     end
   end
 
-  def create_guess(guess: Guess.new)
+  def create_guess(guess: Guess.new) # rubocop:disable Metrics/MethodLength
     puts "Create a 4 digit combination from these colors:\n\n"
     loop do
       board.print_color_ops
@@ -85,6 +85,7 @@ class Mastermind < Game
       guess.comb = %i[W W W W]
       print_separator
     end
+    guess
   end
 
   def select_color_comb
@@ -100,12 +101,33 @@ class Mastermind < Game
   def play_turn(guess)
     board.print_board
     puts "\n\nGuess ##{guess.id}\n\n"
-    turn_guess = Guess.new
-    create_guess(guess: turn_guess)
+    guess.comb = create_guess.comb
+    guess_feedback(guess)
     print_separator
   end
 
+  def guess_feedback(guess)
+    feedback = Array.new(4, :black)
+    guess.comb.each_with_index do |color, idx|
+      if color == code.comb[idx]
+        feedback[idx] = :red
+        next
+      end
+      feedback[idx] = :white if code.comb.include?(color)
+    end
+    guess.feedback = feedback.shuffle
+    # puts
+    # print 'Guess:    '
+    # p guess.comb
+    # print 'Code:     '
+    # p code.comb
+    # print 'Feedback: '
+    # p feedback
+    # print 'Shuffled: '
+    # p feedback.shuffle
+  end
+
   def winner?
-    true
+    false
   end
 end
