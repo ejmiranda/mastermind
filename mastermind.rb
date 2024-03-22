@@ -103,7 +103,6 @@ class Mastermind < Game
     puts "\n\nGuess ##{guess.id}\n\n"
     guess.comb = create_guess.comb
     guess_feedback(guess)
-    print_separator
   end
 
   def guess_feedback(guess)
