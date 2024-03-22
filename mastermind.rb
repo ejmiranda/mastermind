@@ -115,15 +115,6 @@ class Mastermind < Game
       feedback[idx] = :white if code.comb.include?(color)
     end
     guess.feedback = feedback.shuffle
-    # puts
-    # print 'Guess:    '
-    # p guess.comb
-    # print 'Code:     '
-    # p code.comb
-    # print 'Feedback: '
-    # p feedback
-    # print 'Shuffled: '
-    # p feedback.shuffle
   end
 
   def winner?
