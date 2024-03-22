@@ -28,6 +28,18 @@ class Game
     print_banner(text: "Welcome to #{game}")
   end
 
+  def set_players_names(player_qty: players.size)
+    players.each_with_index do |player, idx|
+      puts "Enter the name for Player #{idx + 1}"
+      # player.name = gets.chomp
+      player.name = 'Edgar'
+      puts player.name
+      puts
+      break if player_qty == idx + 1
+    end
+    print_separator
+  end
+
   def play_again?
     get_yes(prompt: 'Do you want to play again (Y/N)?')
   end

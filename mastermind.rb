@@ -20,7 +20,7 @@ class Mastermind < Game
 
   def play_game
     super
-    set_human_name
+    set_players_names(player_qty: 1)
     loop do
       play_round
       break unless play_again?
@@ -28,14 +28,6 @@ class Mastermind < Game
       print_separator
     end
     end_game
-  end
-
-  def set_human_name
-    puts "What's your name?"
-    # human.name = gets.chomp
-    human.name = 'Edgar'
-    puts human.name
-    print_separator
   end
 
   def play_round # rubocop:disable Metrics/MethodLength
