@@ -14,10 +14,6 @@ class Mastermind < Game
     @code = Guess.new
   end
 
-  def start
-    play_game
-  end
-
   private
 
   attr_reader :human, :comp, :board, :code
@@ -42,15 +38,19 @@ class Mastermind < Game
     print_separator
   end
 
-  def play_round
+  def play_round # rubocop:disable Metrics/MethodLength
     set_human_id
     create_code
     board.guesses.each do |guess|
       play_turn(guess)
-      break if winner?
+      if guessed?(guess)
+        self.winner = human.id == 2 ? human : comp
+        break
+      end
 
       print_separator
     end
+    end_round
   end
 
   def set_human_id
@@ -117,7 +117,7 @@ class Mastermind < Game
     guess.feedback = feedback.shuffle
   end
 
-  def winner?
-    false
+  def guessed?(guess)
+    guess.feedback == Array.new(4, :red)
   end
 end

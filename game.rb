@@ -15,6 +15,10 @@ class Game
     @players = players
   end
 
+  def start
+    play_game
+  end
+
   private
 
   attr_reader :game, :players
