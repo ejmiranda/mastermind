@@ -34,8 +34,9 @@ class Game
       # player.name = gets.chomp
       player.name = 'Edgar'
       puts player.name
-      puts
       break if player_qty == idx + 1
+
+      puts
     end
     print_separator
   end
