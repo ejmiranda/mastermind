@@ -5,7 +5,7 @@ require_relative 'board'
 require_relative 'guess'
 
 # The classic code breaking game
-class Mastermind < Game
+class Mastermind < Game # rubocop:disable Metrics/ClassLength
   def initialize
     @human = Player.new
     @comp = CompPlayer.new
@@ -36,12 +36,13 @@ class Mastermind < Game
     board.guesses.each do |guess|
       play_turn(guess)
       if guessed?(guess)
-        self.winner = human.id == 2 ? human : comp
+        self.winner = human.id == '2' ? human : comp
         break
       end
 
       print_separator
     end
+    print_separator
     end_round
   end
 
@@ -52,16 +53,18 @@ class Mastermind < Game
       invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
       up_case: false
     )
+    self.winner = human.id == '1' ? human : comp
     print_separator
   end
 
   def create_code
     case human.id
-    when '1'
+    when '1' # Codemaker
       code.comb = create_guess.comb
       print_separator
-    when '2'
-      code.comb = board.random_comb
+    when '2' # Codebreaker
+      # code.comb = board.random_comb
+      code.comb = %i[B B B B]
     end
   end
 
@@ -111,5 +114,15 @@ class Mastermind < Game
 
   def guessed?(guess)
     guess.feedback == Array.new(4, :red)
+  end
+
+  def end_round # rubocop:disable Metrics/AbcSize
+    board.print_board
+    winner.points += 1
+    puts "\n\nThe WINNER of this round is #{winner.name.upcase}!\n\n"
+    puts "#{human.name}: #{human.points}"
+    puts "#{comp.name}: #{comp.points}"
+    self.winner = nil
+    print_separator
   end
 end
