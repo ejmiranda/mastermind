@@ -116,13 +116,25 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     guess.feedback == Array.new(4, :red)
   end
 
-  def end_round # rubocop:disable Metrics/AbcSize
+  def end_round
     board.print_board
     winner.points += 1
-    puts "\n\nThe WINNER of this round is #{winner.name.upcase}!\n\n"
-    puts "#{human.name}: #{human.points}"
-    puts "#{comp.name}: #{comp.points}"
+    puts "\n\nThe WINNER of this ROUND is #{winner.name.upcase.colorize(:red)}!\n\n"
+    print_score
     self.winner = nil
     print_separator
+  end
+
+  def print_score
+    puts "#{human.name}: #{human.points}"
+    puts "#{comp.name}: #{comp.points}"
+  end
+
+  def end_game
+    print_separator
+    self.winner = human.points > comp.points ? human : comp
+    puts "The WINNER of THE GAME is #{winner.name.upcase}!!!\n".colorize(:red)
+    print_score
+    super
   end
 end
