@@ -35,9 +35,7 @@ class Game
   def set_players_names(player_qty: players.size)
     players.each_with_index do |player, idx|
       puts "Enter the name for Player #{idx + 1}"
-      # player.name = gets.chomp
-      player.name = 'Edgar'
-      puts player.name
+      player.name = gets.chomp
       break if player_qty == idx + 1
 
       puts
