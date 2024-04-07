@@ -25,7 +25,11 @@ class Game
   attr_accessor :winner
 
   def play_game
-    print_banner(text: "Welcome to #{game}")
+    set_screen
+  end
+
+  def set_screen
+    reprint(bannner_text: game)
   end
 
   def set_players_names(player_qty: players.size)
@@ -38,14 +42,16 @@ class Game
 
       puts
     end
-    print_separator
+    set_screen
   end
 
   def play_again?
+    puts
     get_yes(prompt: 'Do you want to play again (Y/N)?')
   end
 end
 
 def end_game
-  print_banner(text: 'Thank you for playing!')
+  puts "\nTHANK YOU FOR PLAYING!!!\n\n"
+  # print_banner(text: 'Thank you for playing!')
 end

@@ -2,17 +2,17 @@
 
 # Output related methods
 module Output
-  def print_banner(text:)
-    puts
-    puts '----------------------'
-    puts text.upcase
-    puts '----------------------'
-    puts
+  def reprint(bannner_text:)
+    system('clear')
+    print_banner(text: bannner_text)
   end
 
-  def print_separator
-    puts
-    puts '----------------------'
+  def print_banner(text:)
+    line = Array.new(text.size + 10, '-').join
+    # puts
+    puts line
+    puts "     #{text.upcase}"
+    puts line
     puts
   end
 end
