@@ -97,7 +97,6 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   def play_turn(guess) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     board.print_board
     puts "\n\nGuess # #{guess.id.to_s.colorize(:red)}\n\n"
-
     case human.id
     when '1' # Codemaker
       guess.comb = board.random_comb
