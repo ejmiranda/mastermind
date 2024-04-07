@@ -60,7 +60,12 @@ class Board
     puts "\n\n"
   end
 
-  def print_board # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def print_board(code: Guess.new(id: 99)) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    print 'CODE:  '
+    print_comb_colors(code)
+    print "\n       "
+    print_comb_text(code)
+    puts "\n\n"
     guesses.reverse.each_with_index do |guess, idx|
       puts unless idx.zero?
       print "#{guess.id} "

@@ -94,11 +94,18 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     ).split('').map(&:to_sym) # String -> Array of Strings -> Array of Symbols
   end
 
-  def play_turn(guess)
-    puts "Guess # #{guess.id.to_s.colorize(:red)}\n\n"
+  def play_turn(guess) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     board.print_board
-    puts "\n"
-    guess.comb = create_guess.comb
+    puts "\n\nGuess # #{guess.id.to_s.colorize(:red)}\n\n"
+
+    case human.id
+    when '1' # Codemaker
+      guess.comb = board.random_comb
+      puts 'COMP is trying to break the code. Press any key...'
+      gets.chomp
+    when '2' # Codebreaker
+      guess.comb = create_guess.comb
+    end
     guess_feedback(guess)
   end
 
@@ -119,23 +126,13 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   end
 
   def end_round
-    print_code
-    board.print_board
+    board.print_board(code: code)
     winner.points += 1
     puts "\n\nThe WINNER of this ROUND is #{winner.name.upcase.colorize(:red)}!\n\n"
     print_score
     self.winner = nil
     self.board = Board.new(guess_qty: 12)
     self.code = Guess.new(id: 99)
-  end
-
-  def print_code
-    print 'CODE:  '.colorize(:red)
-    board.print_comb_colors(code)
-    puts
-    print '       '
-    board.print_comb_text(code)
-    puts "\n\n"
   end
 
   def print_score
