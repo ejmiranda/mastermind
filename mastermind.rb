@@ -11,7 +11,7 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
     @board = Board.new(guess_qty: 12)
-    @code = Guess.new
+    @code = Guess.new(id: 99)
   end
 
   private
@@ -118,11 +118,21 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   end
 
   def end_round
+    print_code
     board.print_board
     winner.points += 1
     puts "\n\nThe WINNER of this ROUND is #{winner.name.upcase.colorize(:red)}!\n\n"
     print_score
     self.winner = nil
+  end
+
+  def print_code
+    print 'CODE:  '.colorize(:red)
+    board.print_comb_colors(code)
+    puts
+    print '       '
+    board.print_comb_text(code)
+    puts "\n\n"
   end
 
   def print_score
