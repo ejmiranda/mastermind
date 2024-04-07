@@ -16,7 +16,8 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
 
   private
 
-  attr_reader :human, :comp, :board, :code
+  attr_reader :human, :comp
+  attr_accessor :board, :code
 
   def play_game
     super
@@ -124,6 +125,8 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     puts "\n\nThe WINNER of this ROUND is #{winner.name.upcase.colorize(:red)}!\n\n"
     print_score
     self.winner = nil
+    self.board = Board.new(guess_qty: 12)
+    self.code = Guess.new(id: 99)
   end
 
   def print_code
