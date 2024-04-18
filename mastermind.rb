@@ -64,8 +64,7 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
       code.comb = create_guess.comb
       set_screen
     when '2' # Codebreaker
-      # code.comb = board.random_comb
-      code.comb = %i[B B B B]
+      code.comb = board.random_comb
     end
   end
 
@@ -109,15 +108,43 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   end
 
   def guess_feedback(guess)
-    feedback = Array.new(4, :black)
-    guess.comb.each_with_index do |color, idx|
-      if color == code.comb[idx]
-        feedback[idx] = :red
-        next
-      end
-      feedback[idx] = :white if code.comb.include?(color)
-    end
+    feedback = exact_matches_qty(guess) + color_matches_qty(guess)
+    feedback.push(:black) until feedback.size == 4
     guess.feedback = feedback.shuffle
+  end
+
+  def exact_matches_qty(guess)
+    exact_matches_qty = []
+    code.comb.each_with_index { |c_color, idx| exact_matches_qty << :red if c_color == guess.comb[idx] }
+    exact_matches_qty
+  end
+
+  def color_matches_qty(guess)
+    color_matches_qty = []
+    nem = non_exact_matches(guess)
+    nem_code_count = count_array_elements(nem[:code])
+    nem_guess_count = count_array_elements(nem[:guess])
+    nem_code_count.each_key do |k|
+      [nem_code_count[k], nem_guess_count[k]].min.times { color_matches_qty << :white } if nem_guess_count[k]
+    end
+    color_matches_qty
+  end
+
+  def non_exact_matches(guess)
+    non_exact_matches = { code: [], guess: [] }
+    code.comb.each_with_index do |c_color, idx|
+      if c_color != guess.comb[idx]
+        non_exact_matches[:code] << c_color
+        non_exact_matches[:guess] << guess.comb[idx]
+      end
+    end
+    non_exact_matches
+  end
+
+  def count_array_elements(arr)
+    arr.each_with_object({}) do |entry, count|
+      count[entry] = arr.count(entry)
+    end
   end
 
   def guessed?(guess)
