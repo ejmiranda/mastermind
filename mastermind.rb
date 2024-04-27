@@ -11,6 +11,7 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
     @board = Board.new(guess_qty: 12)
+    @comp.guesser.prepare_set(values: board.color_ids)
     @code = Guess.new(id: 99)
   end
 
@@ -48,12 +49,13 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   end
 
   def set_human_id
-    human.id = get_valid_value(
-      prompt: "#{human.name}, are you a codemaker (1) or a codebreaker (2)?",
-      valid_values: %w[1 2],
-      invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
-      up_case: false
-    )
+    # human.id = get_valid_value(
+    #   prompt: "#{human.name}, are you a codemaker (1) or a codebreaker (2)?",
+    #   valid_values: %w[1 2],
+    #   invalid_msg: "Sorry, that\'s not valid. Please try again.\n",
+    #   up_case: false
+    # )
+    human.id = '1'
     self.winner = human.id == '1' ? human : comp
     set_screen
   end
@@ -61,7 +63,8 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   def create_code
     case human.id
     when '1' # Codemaker
-      code.comb = create_guess.comb
+      # code.comb = create_guess.comb
+      code.comb = %i[B G Y O]
       set_screen
     when '2' # Codebreaker
       code.comb = board.random_comb
@@ -99,7 +102,6 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     case human.id
     when '1' # Codemaker
       # guess.comb = board.random_comb
-      comp.guesser.prepare_set(values: board.color_ids)
       comp.guesser.guess(id: guess.id)
       puts 'COMP is trying to break the code. Press ENTER...'
       gets.chomp
