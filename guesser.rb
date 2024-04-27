@@ -15,7 +15,6 @@ class Guesser
     values.repeated_permutation(digits) do |permutation|
       set[key] = permutation
       key += key.to_s.slice(-1) == slice_digit.to_s ? slice_step : 1
-      break if key > 1125
     end
   end
 
