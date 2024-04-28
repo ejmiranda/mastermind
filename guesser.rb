@@ -20,16 +20,17 @@ class Guesser
     permutation.each do |item|
       key += (values.index(item) + 1).to_s
     end
-    key
+    key.to_i
   end
 
   def guess(id:)
     case id
     when 1
-      # puts set[1111]
-      # puts set[1122]
-      # puts set[6666]
-      print_set(10_000)
+      puts set[1111]
+      puts set[1122]
+      puts set[6666]
+      gets.chomp
+      # print_set(10_000)
       # puts find_in_set(%i[B B Y O])
     end
   end
