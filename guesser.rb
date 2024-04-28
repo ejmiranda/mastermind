@@ -9,19 +9,27 @@ class Guesser
   end
 
   def prepare_set(values:, digits: 4)
-    key = ('1' * digits).to_i
-    slice_digit = values.length
-    slice_step = 11 - slice_digit # Don't know what happens if values.length > 11
     values.repeated_permutation(digits) do |permutation|
+      key = key_from_permutation(permutation, values)
       set[key] = permutation
-      key += key.to_s.slice(-1) == slice_digit.to_s ? slice_step : 1
     end
+  end
+
+  def key_from_permutation(permutation, values)
+    key = ''
+    permutation.each do |item|
+      key += (values.index(item) + 1).to_s
+    end
+    key
   end
 
   def guess(id:)
     case id
     when 1
-      print_set(10)
+      # puts set[1111]
+      # puts set[1122]
+      # puts set[6666]
+      print_set(10_000)
       # puts find_in_set(%i[B B Y O])
     end
   end
