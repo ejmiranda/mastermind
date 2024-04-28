@@ -2,10 +2,12 @@
 
 # A guesser engine for a player of Mastermind
 class Guesser
-  attr_accessor :set
+  attr_reader :set
+  attr_accessor :feedback
 
   def initialize
     @set = {}
+    @feedback = []
   end
 
   def prepare_set(values:, digits: 4)
@@ -26,12 +28,7 @@ class Guesser
   def guess(id:)
     case id
     when 1
-      puts set[1111]
-      puts set[1122]
-      puts set[6666]
-      gets.chomp
-      # print_set(10_000)
-      # puts find_in_set(%i[B B Y O])
+      set[1122]
     end
   end
 

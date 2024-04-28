@@ -102,13 +102,14 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     case human.id
     when '1' # Codemaker
       # guess.comb = board.random_comb
-      comp.guesser.guess(id: guess.id)
+      guess.comb = comp.guesser.guess(id: guess.id)
       puts 'COMP is trying to break the code. Press ENTER...'
       gets.chomp
     when '2' # Codebreaker
       guess.comb = create_guess.comb
     end
     guess_feedback(guess)
+    comp.guesser.feedback = guess.feedback
   end
 
   def guess_feedback(guess)
