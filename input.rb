@@ -31,4 +31,14 @@ module Input
       up_case: true
     ) == 'Y'
   end
+
+  def get_not_empty(prompt:, invalid_msg:)
+    puts prompt
+    loop do
+      value = gets.chomp
+      return value unless value.empty?
+
+      puts invalid_msg
+    end
+  end
 end
