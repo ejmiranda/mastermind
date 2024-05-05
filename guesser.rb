@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
+require_relative 'set_entry'
 require_relative 'guess'
 
 # A guesser engine for a player of Mastermind
 class Guesser
-  attr_accessor :prev_guess, :reduced_set
+  attr_accessor :prev_guess
   attr_reader :set
 
   def initialize
     @set = {}
-    @reduced_set = {}
     @prev_guess = Guess.new
   end
 
-  def prepare_set(values:, digits: 4)
+  def create_set(values:, digits: 4)
     values.repeated_permutation(digits) do |permutation|
       key = key_from_permutation(permutation, values)
-      set[key] = permutation
+      set[key] = SetEntry.new(comb: permutation)
     end
   end
 
@@ -31,39 +31,30 @@ class Guesser
   def make_guess(id:)
     case id
     when 1
-      set[1122]
+      combination(1122)
     else
-      set[1134]
-      # 3 reds
-      # 2 reds
-      # 1 red
-      # 4 whites
-      # 3 whites
-      # 2 whites
-      # 1 white
-      # 4 blacks
+      combination(1134)
+      # There are 15 possible scenarios.
     end
+  end
+
+  def combination(entry_key)
+    set[entry_key].comb
   end
 
   def feedback(prev_guess:)
     self.prev_guess = prev_guess
-    reduce_set
-  end
-
-  def reduce_set
-    # Her you have to map set into reduced_set using a criteria from previous guess + feedback
+    # Remove from S any code that would not give the same response if it (the guess) were the code.
   end
 
   def print_set(max_row)
     row = 1
     set.each do |key, value|
-      puts "#{row} - #{key} #{value}"
+      puts "#{key} -> #{value.comb}, used: #{value.used}, available: #{value.available}"
       row += 1
       break if row > max_row
     end
-  end
-
-  def find_in_set(find_item)
-    set.find_index { |item| item == find_item }
+    puts 'Press ENTER to continue...'
+    gets.chomp
   end
 end

@@ -11,7 +11,7 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     @comp = CompPlayer.new
     super(game: 'Mastermind', players: [@human, @comp])
     @board = Board.new(guess_qty: 12)
-    @comp.guesser.prepare_set(values: board.color_ids)
+    @comp.guesser.create_set(values: board.color_ids)
     @code = Guess.new(id: 99)
   end
 
