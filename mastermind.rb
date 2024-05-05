@@ -64,7 +64,8 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
     case human.id
     when '1' # Codemaker
       # code.comb = create_guess.comb
-      code.comb = %i[B G Y O]
+      # code.comb = %i[B G Y O]
+      code.comb = board.random_comb
       set_screen
     when '2' # Codebreaker
       code.comb = board.random_comb
@@ -97,22 +98,23 @@ class Mastermind < Game # rubocop:disable Metrics/ClassLength
   end
 
   def play_turn(guess) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    board.print_board
+    # board.print_board
+    board.print_board(code: code)
     puts "\n\nGuess # #{guess.id.to_s.colorize(:red)}\n\n"
     case human.id
     when '1' # Codemaker
       # guess.comb = board.random_comb
-      guess.comb = comp.guesser.guess(id: guess.id)
+      guess.comb = comp.guesser.make_guess(id: guess.id)
       puts 'COMP is trying to break the code. Press ENTER...'
       gets.chomp
     when '2' # Codebreaker
       guess.comb = create_guess.comb
     end
-    guess_feedback(guess)
-    comp.guesser.feedback = guess.feedback
+    feedback(guess)
+    comp.guesser.feedback(prev_guess: guess) if human.id == '2'
   end
 
-  def guess_feedback(guess)
+  def feedback(guess)
     feedback = exact_matches_qty(guess) + color_matches_qty(guess)
     feedback.push(:black) until feedback.size == 4
     guess.feedback = feedback.shuffle
