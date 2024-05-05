@@ -33,6 +33,7 @@ class Guesser
     when 1
       combination(1122)
     else
+      process_feedback
       combination(1134)
       # There are 15 possible scenarios.
     end
@@ -42,9 +43,9 @@ class Guesser
     set[entry_key].comb
   end
 
-  def feedback(prev_guess:)
-    self.prev_guess = prev_guess
-    # Remove from S any code that would not give the same response if it (the guess) were the code.
+  def process_feedback
+    puts prev_guess.feedback.tally
+    gets.chomp
   end
 
   def print_set(max_row)
