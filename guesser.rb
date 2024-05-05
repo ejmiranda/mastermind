@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
+require_relative 'guess'
+
 # A guesser engine for a player of Mastermind
 class Guesser
+  attr_accessor :prev_guess, :reduced_set
   attr_reader :set
-  attr_accessor :feedback
 
   def initialize
     @set = {}
-    @feedback = []
+    @reduced_set = {}
+    @prev_guess = Guess.new
   end
 
   def prepare_set(values:, digits: 4)
@@ -25,11 +28,30 @@ class Guesser
     key.to_i
   end
 
-  def guess(id:)
+  def make_guess(id:)
     case id
     when 1
       set[1122]
+    else
+      set[1134]
+      # 3 reds
+      # 2 reds
+      # 1 red
+      # 4 whites
+      # 3 whites
+      # 2 whites
+      # 1 white
+      # 4 blacks
     end
+  end
+
+  def feedback(prev_guess:)
+    self.prev_guess = prev_guess
+    reduce_set
+  end
+
+  def reduce_set
+    # Her you have to map set into reduced_set using a criteria from previous guess + feedback
   end
 
   def print_set(max_row)
