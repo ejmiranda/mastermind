@@ -34,11 +34,10 @@ class Game
 
   def set_players_names(player_qty: players.size)
     players.each_with_index do |player, idx|
-      # player.name = get_not_empty(
-      #   prompt: "Enter the name for Player #{idx + 1}",
-      #   invalid_msg: 'Sorry, you have to enter something. Please try again.'
-      # )
-      player.name = 'Edgar'
+      player.name = get_not_empty(
+        prompt: "Enter the name for Player #{idx + 1}",
+        invalid_msg: 'Sorry, you have to enter something. Please try again.'
+      )
       break if player_qty == idx + 1
 
       puts

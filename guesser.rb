@@ -32,10 +32,10 @@ class Guesser
     case id
     when 1
       combination(1122)
-    else
+    else # There are 15 possible scenarios.
       process_feedback
-      combination(1134)
-      # There are 15 possible scenarios.
+      # Maybe one day
+      # combination(XYZ) <- Next guess chosen using minimax and the processed feedback
     end
   end
 
@@ -44,8 +44,8 @@ class Guesser
   end
 
   def process_feedback
-    puts prev_guess.feedback.tally
-    gets.chomp
+    # Maybe one day...
+    # prev_guess.feedback.tally
   end
 
   def print_set(max_row)
