@@ -1,7 +1,7 @@
 ## Mastermind
 A game of cunning and logic for two players. Break the hidden code.
 
-[![Run on Repl.it](https://replit.com/badge/github/ejmiranda/tic_tac_toe)]()
+[![Run on Repl.it](https://replit.com/badge/github/ejmiranda/mastermind)]()
 
 **Description:**
 - From The Odin Project's [Curriculum](https://www.theodinproject.com/lessons/ruby-mastermind).
@@ -9,3 +9,4 @@ A game of cunning and logic for two players. Break the hidden code.
 - There is a human player and a computer player.
 - Both can be codemaker and codebreaker.
 - The codebreaker has 12 turns to guess the code.
+- The computer player guesses randomly (Maybe one day it will guess intelligently).
