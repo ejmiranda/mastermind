@@ -1,7 +1,7 @@
 ## Mastermind
 A game of cunning and logic for two players. Break the hidden code.
 
-[![Run on Repl.it](https://replit.com/badge/github/ejmiranda/mastermind)]()
+[![Run on Repl.it](https://replit.com/badge/github/ejmiranda/mastermind)](https://replit.com/@ejmiranda/mastermind)
 
 **Description:**
 - From The Odin Project's [Curriculum](https://www.theodinproject.com/lessons/ruby-mastermind).
